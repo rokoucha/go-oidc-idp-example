@@ -8,10 +8,16 @@ import (
 	"github.com/oklog/ulid/v2"
 )
 
+const (
+	RoleAdmin = "Admin"
+	RoleUser  = "User"
+)
+
 type UserInfo struct {
 	ID       ulid.ULID
 	Username string
 	password []byte
+	Role     string
 }
 
 type User struct {
@@ -37,7 +43,7 @@ func (u *User) Get(id ulid.ULID) (UserInfo, bool) {
 	return u.users[i], true
 }
 
-func (u *User) Register(username, password string) error {
+func (u *User) Register(username string, password string, role string) error {
 	if slices.IndexFunc(u.users, func(u UserInfo) bool {
 		return u.Username == username
 	}) != -1 {
@@ -48,6 +54,7 @@ func (u *User) Register(username, password string) error {
 		ID:       ulid.Make(),
 		Username: username,
 		password: hash(u.salt, password),
+		Role:     role,
 	})
 
 	return nil

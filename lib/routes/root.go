@@ -2,6 +2,8 @@ package routes
 
 import (
 	"net/http"
+
+	"github.com/rokoucha/go-oidc-idp-example/lib/user"
 )
 
 func (r *Routes) Index(res http.ResponseWriter, req *http.Request) {
@@ -97,7 +99,7 @@ func (r *Routes) Register(res http.ResponseWriter, req *http.Request) {
 			return
 		}
 
-		err := r.user.Register(username, password)
+		err := r.user.Register(username, password, user.RoleUser)
 		if err != nil {
 			res.WriteHeader(http.StatusBadRequest)
 			r.template.ExecuteTemplate(res, "register.html", struct{ Message string }{Message: err.Error()})

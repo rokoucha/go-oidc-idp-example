@@ -36,6 +36,10 @@ func main() {
 	}
 	s := session.New()
 	u := user.New(salt)
+	err = u.Register("test", "test", user.RoleAdmin)
+	if err != nil {
+		panic(err)
+	}
 
 	r := routes.New(routes.Config{
 		Oidc:    o,

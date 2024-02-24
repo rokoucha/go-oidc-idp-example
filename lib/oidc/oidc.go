@@ -73,6 +73,7 @@ type IDTokenPayload struct {
 	IssuedAt   int64  `json:"iat"`
 	Nonce      string `json:"nonce"`
 	Name       string `json:"name"`
+	Role       string `json:"role"`
 }
 
 type OpenIDProviderMetadata struct {
@@ -148,6 +149,7 @@ func (o *Oidc) GenerateIDToken(user user.UserInfo, clientID string, nonce string
 		IssuedAt:   time.Now().Unix(),
 		Nonce:      nonce,
 		Name:       user.Username,
+		Role:       user.Role,
 	})
 	if err != nil {
 		return "", err
